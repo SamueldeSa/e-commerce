@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RO.DevTest.Domain.Entities
 {
-    internal class Produto
+    public class Produto
     {
         public Guid Id { get; set; }
         public string Nome { get; set; } = string.Empty;
