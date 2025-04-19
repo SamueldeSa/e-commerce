@@ -1,27 +1,25 @@
-﻿using RO.DevTest.Application.Contracts.Persistance.Repositories;
+
+using RO.DevTest.Application.Contracts.Persistence.Repositories;
+using RO.DevTest.Application.Contracts.Services;
 using RO.DevTest.Application.DTOs;
 using RO.DevTest.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RO.DevTest.Application.Contracts.Services
+
+namespace RO.DevTest.Application.Services
 {
-    internal class ClienteService : IClienteService
+    public class ClienteService : IClienteService
     {
         private readonly IClienteRepository _clienteRepository;
 
         public ClienteService(IClienteRepository clienteRepository)
         {
-
             _clienteRepository = clienteRepository;
         }
 
         public async Task<ClienteDTO> CreateAsync(CreateClienteDto dto)
         {
-            var Cliente = new Cliente
+
+            var cliente = new Cliente
             {
                 Id = Guid.NewGuid(),
                 Nome = dto.Nome,
@@ -30,29 +28,19 @@ namespace RO.DevTest.Application.Contracts.Services
                 DataNascimento = dto.DataNascimento
             };
 
-            await _clienteRepository.AddAsync(Cliente);
+            await _clienteRepository.AddAsync(cliente);
             await _clienteRepository.SaveChangesAsync();
 
             return new ClienteDTO
             {
-                Id = Cliente.Id,
-                Nome = Cliente.Nome,
-                Email = Cliente.Email,
-                Cpf = Cliente.Cpf,
+                Id = cliente.Id,
+                Nome = cliente.Nome,
+                Email = cliente.Email,
+                Cpf = cliente.Cpf,
                 DataNascimento = dto.DataNascimento
 
             };
 
-        }
-
-        public async Task<bool> DeleteAsync(Guid Id)
-        {
-            var cliente = await _clienteRepository.GetByIdAsync(Id);
-            if (cliente == null) return false;
-
-            _clienteRepository.Remove(cliente);
-            await _clienteRepository.SaveChangesAsync();
-            return true;
         }
 
         public async Task<IEnumerable<ClienteDTO>> GetAllAsync()
@@ -68,15 +56,16 @@ namespace RO.DevTest.Application.Contracts.Services
                 DataNascimento= c.DataNascimento   
             });
 
+
         }
 
         public async Task<ClienteDTO?> GetByIdAsync(Guid id)
         {
             var cliente = await _clienteRepository.GetByIdAsync(id);
-
             if(cliente == null) return null;
 
-            return new ClienteDTO
+            return new ClienteDTO   
+
             {
                 Id = cliente.Id,
                 Nome = cliente.Nome,
@@ -85,25 +74,35 @@ namespace RO.DevTest.Application.Contracts.Services
                 DataNascimento = cliente.DataNascimento
             };
 
+
         }
 
-        public async Task<bool> UpdateAsync(Guid Id, UpdateClienteDto dto)
+        public async Task<bool> UpdateAsync(Guid id, UpdateClienteDto dto)
         {
-            var cliente = await _clienteRepository.GetByIdAsync(Id);
+            var cliente = await _clienteRepository.GetByIdAsync(id);
+
             if (cliente == null) return false;
 
             cliente.Nome = dto.Nome;
             cliente.Email = dto.Email;
             cliente.DataNascimento = dto.DataNascimento;
 
-            _clienteRepository.Updade(cliente);
+            _clienteRepository.Update(cliente);
             await _clienteRepository.SaveChangesAsync();
-
             return true;
 
 
         }
 
 
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var cliente = await _clienteRepository.GetByIdAsync(id);
+            if (cliente == null) return false;
+
+            _clienteRepository.Remove(cliente);
+            await _clienteRepository.SaveChangesAsync();
+            return true;
+        }
     }
 }

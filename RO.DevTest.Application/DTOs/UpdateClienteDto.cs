@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RO.DevTest.Application.DTOs
 {
-    internal class UpdateClienteDto
+    public class UpdateClienteDto
     {
         public string Nome { get; set; } =string.Empty;
         public string Email { get; set; } = string.Empty;   

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RO.DevTest.Domain.Entities
 {
-    internal class Venda
+    public class Venda
     {
         public Guid Id { get; set; }
         public Guid ClienteId { get; set; }
