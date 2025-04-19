@@ -1,6 +1,12 @@
 using RO.DevTest.Application;
 using RO.DevTest.Infrastructure.IoC;
 using RO.DevTest.Persistence.IoC;
+using RO.DevTest.Application.Contracts.Services;
+using RO.DevTest.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using RO.DevTest.Application.Services;
+using RO.DevTest.Application.Contracts.Persistence.Repositories;
+using RO.DevTest.Infrastructure.Persistence.Repositories;
 
 namespace RO.DevTest.WebApi;
 
@@ -8,9 +14,17 @@ public class Program {
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddDbContext<AppDbContext>(options 
+            => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        builder.Services.AddScoped<IClienteService, ClienteService>();
+        builder.Services.AddScoped<IClienteRepository, ClienteRepository>();   
+        
+
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
 
         builder.Services.InjectPersistenceDependencies()
             .InjectInfrastructureDependencies();

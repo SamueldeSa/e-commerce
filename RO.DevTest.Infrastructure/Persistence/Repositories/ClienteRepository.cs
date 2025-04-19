@@ -3,6 +3,7 @@ using RO.DevTest.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using RO.DevTest.Application.DTOs;
+using RO.DevTest.Application.Contracts.Persistence.Repositories;
 
 namespace RO.DevTest.Infrastructure.Persistence.Repositories
 {
@@ -14,8 +15,6 @@ namespace RO.DevTest.Infrastructure.Persistence.Repositories
         {
             _context = context;
         }
-
-         
 
         public async Task<IEnumerable<Cliente>> GetAllAsync()
         {
