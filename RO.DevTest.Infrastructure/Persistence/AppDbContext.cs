@@ -5,7 +5,9 @@ namespace RO.DevTest.Infrastructure.Persistence
 {
     public  class AppDbContext : DbContext
     {
-        public DbSet<Cliente> Clientes { get; set; } = null!;
+        public DbSet<Cliente> Clientes { get; set; } = null;
+        public DbSet<Produto> Produtos { get; set; } = null;
+
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     }
