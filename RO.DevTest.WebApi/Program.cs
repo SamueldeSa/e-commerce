@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using RO.DevTest.Application.Services;
 using RO.DevTest.Application.Contracts.Persistence.Repositories;
 using RO.DevTest.Infrastructure.Persistence.Repositories;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+using RO.DevTest.Application.Contracts.Persistance.Repositories;
 
 namespace RO.DevTest.WebApi;
 
@@ -15,10 +17,12 @@ public class Program {
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddDbContext<AppDbContext>(options 
-            => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
         builder.Services.AddScoped<IClienteService, ClienteService>();
-        builder.Services.AddScoped<IClienteRepository, ClienteRepository>();   
+        builder.Services.AddScoped<IClienteRepository, ClienteRepository>();  
+        builder.Services.AddScoped<IProdutoService, ProdutoService>();
+        builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
         
 
         builder.Services.AddControllers();

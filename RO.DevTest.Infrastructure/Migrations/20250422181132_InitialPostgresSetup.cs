@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RO.DevTest.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialPostgresSetup : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,11 +15,11 @@ namespace RO.DevTest.Infrastructure.Migrations
                 name: "Clientes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cpf = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Nome = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Cpf = table.Column<string>(type: "text", nullable: false),
+                    DataNascimento = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,28 +27,28 @@ namespace RO.DevTest.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Produto",
+                name: "Produtos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Preco = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Estoque = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Nome = table.Column<string>(type: "text", nullable: false),
+                    Descricao = table.Column<string>(type: "text", nullable: false),
+                    Preco = table.Column<decimal>(type: "numeric", nullable: false),
+                    Estoque = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Produto", x => x.Id);
+                    table.PrimaryKey("PK_Produtos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Venda",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClienteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DataVenda = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ValorTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClienteId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DataVenda = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ValorTotal = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,19 +65,19 @@ namespace RO.DevTest.Infrastructure.Migrations
                 name: "ProdutoVendido",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VendaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProdutoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Quantidade = table.Column<int>(type: "int", nullable: false),
-                    PrecoUnitario = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    VendaId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProdutoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantidade = table.Column<int>(type: "integer", nullable: false),
+                    PrecoUnitario = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProdutoVendido", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProdutoVendido_Produto_ProdutoId",
+                        name: "FK_ProdutoVendido_Produtos_ProdutoId",
                         column: x => x.ProdutoId,
-                        principalTable: "Produto",
+                        principalTable: "Produtos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -111,7 +111,7 @@ namespace RO.DevTest.Infrastructure.Migrations
                 name: "ProdutoVendido");
 
             migrationBuilder.DropTable(
-                name: "Produto");
+                name: "Produtos");
 
             migrationBuilder.DropTable(
                 name: "Venda");

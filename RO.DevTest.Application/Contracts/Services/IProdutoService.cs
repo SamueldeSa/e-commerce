@@ -10,11 +10,11 @@ namespace RO.DevTest.Application.Contracts.Services
 {
     public interface IProdutoService
     {
-        Task<ProdutoDto?> GetByAsync(Guid id); 
+        Task<ProdutoDto?> GetByAsync(Guid Id); 
         Task<IEnumerable<ProdutoDto>> GetAllAync();
         Task<ProdutoDto> CreateAsync(CreateProdutoDto dto);
-        Task<bool>UpdateAsync(Guid Id, UpdateProdutoDto dto);
-        Task<bool> DeleteAysnc(Guid Id);
+        Task<bool> UpdateAsync(Guid Id, UpdateProdutoDto dto);
+        Task<bool> DeleteAsync(Guid Id);
 
     }
 }

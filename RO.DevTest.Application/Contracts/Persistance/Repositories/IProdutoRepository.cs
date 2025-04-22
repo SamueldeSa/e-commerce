@@ -13,7 +13,7 @@ namespace RO.DevTest.Application.Contracts.Persistance.Repositories
         Task<IEnumerable<Produto>> GetAllAsync();
         Task AddAsync(Produto produto); 
         void Update(Produto produto);     
-        void Remove(Guid Id);
+        void Remove(Produto produto);
         Task SaveChangesAsync();    
 
     }

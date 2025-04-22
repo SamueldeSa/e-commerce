@@ -8,8 +8,10 @@ namespace RO.DevTest.Application.DTOs
 {
     public class ProdutoDto
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
         public string Nome { get; set; } = string.Empty;
+        public string? Descricao { get; set; }
         public decimal Preco { get; set; }
+        public int Estoque { get; set; }
     }
 }
