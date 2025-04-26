@@ -5,11 +5,17 @@ namespace RO.DevTest.Infrastructure.Persistence
 {
     public  class AppDbContext : DbContext
     {
-        public DbSet<Cliente> Clientes { get; set; } = null;
-        public DbSet<Produto> Produtos { get; set; } = null;
+
+        public AppDbContext(DbContextOptions<AppDbContext> options) 
+            : base(options) 
+        {
+        }
 
 
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Venda> Vendas { get; set; }
+        public DbSet<ProdutoVendido> ProdutosVendidos { get; set; }
 
 
         /*mapeamento da propriedade DataNascimento do Cliente para

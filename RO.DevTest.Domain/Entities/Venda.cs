@@ -12,7 +12,6 @@ namespace RO.DevTest.Domain.Entities
         public Guid ClienteId { get; set; }
         public DateTime DataVenda { get; set; }
         public decimal ValorTotal { get; set; }
-
         public Cliente? Cliente { get; set; }
         public ICollection<ProdutoVendido> ProdutosVendidos { get; set; }
 
