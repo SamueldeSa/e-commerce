@@ -4,11 +4,14 @@ using RO.DevTest.Persistence.IoC;
 using RO.DevTest.Application.Contracts.Services;
 using RO.DevTest.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using RO.DevTest.Application.Services;
+using RO.DevTest.Infrastructure.Services;
 using RO.DevTest.Application.Contracts.Persistence.Repositories;
 using RO.DevTest.Infrastructure.Persistence.Repositories;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using RO.DevTest.Application.Contracts.Persistance.Repositories;
+using RO.DevTest.Application.Contracts.Services.Interface;
+using RO.DevTest.Infrastructure.Services;
+
 
 namespace RO.DevTest.WebApi;
 
@@ -23,9 +26,15 @@ public class Program {
         builder.Services.AddScoped<IClienteRepository, ClienteRepository>();  
         builder.Services.AddScoped<IProdutoService, ProdutoService>();
         builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+        builder.Services.AddScoped<IVendaService, VendaService>();
         
 
-        builder.Services.AddControllers();
+        //AddJson verifica se class estao em loop -->  true == segue
+        builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+            });
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", policy =>
@@ -37,7 +46,7 @@ public class Program {
         });
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-
+           
 
         builder.Services.InjectPersistenceDependencies()
             .InjectInfrastructureDependencies();

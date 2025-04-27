@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RO.DevTest.Application.DTOs;
-using RO.DevTest.Application.Contracts.Services;
+using RO.DevTest.Application.Contracts.Services.Interface;
 
 namespace RO.DevTest.WebApi.Controllers
 {

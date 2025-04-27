@@ -1,4 +1,5 @@
 ﻿using RO.DevTest.Application.Contracts.Persistance.Repositories;
+using RO.DevTest.Application.Contracts.Services.Interface;
 using RO.DevTest.Application.DTOs;
 using RO.DevTest.Domain.Entities;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RO.DevTest.Application.Contracts.Services
+namespace RO.DevTest.Infrastructure.Services
 {
     public class ProdutoService : IProdutoService
     {

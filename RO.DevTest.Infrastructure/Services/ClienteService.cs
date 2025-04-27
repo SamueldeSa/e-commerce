@@ -1,11 +1,10 @@
-
 using RO.DevTest.Application.Contracts.Persistence.Repositories;
-using RO.DevTest.Application.Contracts.Services;
+using RO.DevTest.Application.Contracts.Services.Interface;
 using RO.DevTest.Application.DTOs;
 using RO.DevTest.Domain.Entities;
 
 
-namespace RO.DevTest.Application.Services
+namespace RO.DevTest.Infrastructure.Services
 {
     public class ClienteService : IClienteService
     {

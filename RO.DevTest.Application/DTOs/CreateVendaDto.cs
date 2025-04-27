@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RO.DevTest.Application.DTOs
 {
-    internal class CreateVenda
+    public class CreateVendaDto
     {
         public Guid ClienteId { get; set; }
         public List<ProdutoVendidoDto> Produtos { get; set; }

@@ -3,7 +3,7 @@
 using FluentAssertions;
 using Moq;
 using RO.DevTest.Application.Contracts.Persistance.Repositories;
-using RO.DevTest.Application.Contracts.Services;
+using RO.DevTest.Infrastructure.Services;
 using RO.DevTest.Application.DTOs;
 using RO.DevTest.Domain.Entities;
 

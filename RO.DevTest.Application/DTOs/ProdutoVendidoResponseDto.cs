@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace RO.DevTest.Application.DTOs
 {
-    public class ProdutoVendidoDto
+    public class ProdutoVendidoResponseDto
     {
         public Guid ProdutoId { get; set; }
+        public string NomeProduto { get; set; }
         public int Quantidade { get; set; }
-        public decimal PrecoUnitario {  get; set; }
-
+        public decimal PrecoUnitario { get; set; }
 
 
     }
