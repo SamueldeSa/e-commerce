@@ -48,10 +48,44 @@ namespace RO.DevTest.Infrastructure.Services
             };
 
             return vendaResponse;
-            
-
-
         }
+
+
+        public async Task<AnaliseVendasResponseDto> ObterAnaliseVendasAsync(DateTime dataInicio, DateTime dataFim)
+        {
+            dataInicio = DateTime.SpecifyKind(dataInicio, DateTimeKind.Utc);
+            dataFim = DateTime.SpecifyKind(dataFim, DateTimeKind.Utc);
+
+            var vendas = await _context.Vendas
+                .Include(v => v.ProdutosVendidos)
+                .ThenInclude(pv => pv.Produto)
+                .Where(v => v.DataVenda >= dataInicio && v.DataVenda <= dataFim)
+                .ToListAsync();
+
+            var rendaTotal = vendas.Sum(v => v.ValorTotal);
+            var quantidadeVendas = vendas.Count;
+            
+            var produtosRendas = vendas
+                .SelectMany(v => v.ProdutosVendidos)
+                .GroupBy(pv => new { pv.ProdutoId, pv.Produto.Nome })
+                .Select(g => new ProdutoRendaResponseDto 
+                { 
+                    ProdutoId = g.Key.ProdutoId,
+                    NomeProduto = g.Key.Nome,
+                    RendalTotal = g.Sum(pv => pv.PrecoUnitario * pv.Quantidade)
+                }).ToList();
+
+            var analiseVendasResponse = new AnaliseVendasResponseDto
+            {
+                RendaTotal = rendaTotal,
+                Quantidade = quantidadeVendas,
+                ProdutosRenda= produtosRendas
+                
+            };
+            return analiseVendasResponse;
+        }
+
+
 
         public async Task<List<VendaResponseDto>> ListVendaAsync()
         {

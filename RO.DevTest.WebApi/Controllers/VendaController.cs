@@ -46,6 +46,14 @@ namespace RO.DevTest.WebApi.Controllers
             return Ok(venda);
         }
 
+        [HttpGet("analisar")]
+        public async Task<ActionResult<AnaliseVendasResponseDto>> AnlisarVendas([FromQuery] DateTime dataInicio, [FromQuery] DateTime dataFim)
+        {
+            var analise = await _vendaService.ObterAnaliseVendasAsync(dataInicio, dataFim);
+            return Ok(analise);
+        }
+
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletarVenda(Guid id)
         {

@@ -9,7 +9,7 @@ namespace RO.DevTest.Application.Contracts.Services.Interface
         Task<List<VendaResponseDto>> ListVendaAsync();
         Task<VendaResponseDto> ObterVendaPorIdAsync(Guid id);
         Task<bool> DeletarVendaAsync(Guid id);
-
+        Task<AnaliseVendasResponseDto> ObterAnaliseVendasAsync(DateTime dataInicio, DateTime dataFim);
 
     }
 }
