@@ -3,6 +3,8 @@ using RO.DevTest.Infrastructure.Services;
 using RO.DevTest.Application.DTOs;
 using RO.DevTest.Domain.Entities;
 using RO.DevTest.Application.Contracts.Services.Interface;
+using Microsoft.EntityFrameworkCore;
+
 
 
 namespace RO.DevTest.WebApi.Controllers
@@ -54,7 +56,20 @@ namespace RO.DevTest.WebApi.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("excluir/{id}")]
+        public async Task<IActionResult> DeletarVenda(Guid id)
+        {
+            var sucesso = await _vendaService.DeletarVendaAsync(id);
+            if (!sucesso)
+            {
+                return NotFound($"Venda com Id {id} não encontrado!");
+            }
+
+            return NoContent();
+        }
+
+
+        /*[HttpDelete("{id}")]
         public async Task<IActionResult> DeletarVenda(Guid id)
         {
             var sucesso = await _vendaService.DeletarVendaAsync(id);
@@ -65,7 +80,7 @@ namespace RO.DevTest.WebApi.Controllers
 
             return NoContent();
 
-        }
-        
+        }*/
+
     }
 }
