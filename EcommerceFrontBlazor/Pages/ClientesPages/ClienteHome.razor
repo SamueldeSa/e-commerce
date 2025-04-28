@@ -1,0 +1,61 @@
+﻿@page "/clientes"
+@using EcommerceFrontBlazor.Services
+@using EcommerceFrontBlazor.Models;
+@using EcommerceFrontBlazor.Models.ClienteModels
+@inject ClienteService  ClienteService
+
+
+<h3>Lista de Clientes</h3>
+
+<a class="btn btn-success mb-3" href="/clientes/novo">Novo Cliente</a>
+
+@if (clientes == null)
+{
+    <p>Carregando...</p>
+}
+else if (clientes.Count == 0)
+{
+    <p>Nenhum cliente cadastrado.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>CPF</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in clientes)
+            {
+                <tr>
+                    <td>@cliente.Nome</td>
+                    <td>@cliente.Email</td>
+                    <td>@cliente.Cpf</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="/clientes/editar/@cliente.Id">Editar</a>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteCliente(cliente.Id)">Excluir</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Cliente> clientes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        clientes = await ClienteService.GetClientesAsync();
+    }
+
+    private async Task DeleteCliente(Guid id)
+    {
+        await ClienteService.DeleteClienteAsync(id);
+        clientes = await ClienteService.GetClientesAsync(); // Atualiza a lista depois de excluir
+    }
+}

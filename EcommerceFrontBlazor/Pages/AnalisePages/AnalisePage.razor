@@ -1,0 +1,60 @@
+﻿@page "/analise"
+@using EcommerceFrontBlazor.Models.AnaliseModels
+@using EcommerceFrontBlazor.Services
+@inject VendaService VendaService
+
+<h3>Análise de Vendas</h3>
+
+<EditForm Model="filtro" OnValidSubmit="BuscarAnalise">
+    <div class="form-group">
+        <label>Data Inicial:</label>
+        <InputDate class="form-control" @bind-Value="filtro.DataInicio" />
+    </div>
+    <div class="form-group mt-2">
+        <label>Data Final:</label>
+        <InputDate class="form-control" @bind-Value="filtro.DataFim" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Buscar</button>
+</EditForm>
+
+@if (analise != null)
+{
+    <h4 class="mt-4">Resumo</h4>
+    <p><strong>Renda Total:</strong> @analise.RendaTotal.ToString("C")</p>
+    <p><strong>Quantidade de Vendas:</strong> @analise.Quantidade</p>
+
+    <h5 class="mt-4">Produtos Vendidos</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var produto in analise.ProdutosRenda)
+            {
+                <tr>
+                    <td>@produto.NomeProduto</td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private AnaliseFiltro filtro = new AnaliseFiltro();
+    private AnaliseVendasResponse analise;
+
+    private async Task BuscarAnalise()
+    {
+        analise = await VendaService.GetAnaliseVendasAsync(filtro.DataInicio, filtro.DataFim);
+    }
+
+    private class AnaliseFiltro
+    {
+        public DateTime DataInicio { get; set; } = DateTime.Today.AddMonths(-1);
+        public DateTime DataFim { get; set; } = DateTime.Today;
+    }
+}

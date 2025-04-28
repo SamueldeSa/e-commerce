@@ -1,0 +1,68 @@
+﻿@page "/produtos/editar/{id:guid}"
+@using EcommerceFrontBlazor.Models.ProdutoModels
+@using EcommerceFrontBlazor.Services
+@inject ProdutoService ProdutoService
+@inject NavigationManager NavigationManager
+
+<h3>Editar Produto</h3>
+
+@if (produto == null)
+{
+    <p>Carregando produto...</p>
+}
+else
+{
+    <EditForm Model="produto" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label>Nome:</label>
+            <InputText class="form-control" @bind-Value="produto.Nome" />
+        </div>
+
+        <div class="form-group">
+            <label>Descrição:</label>
+            <InputText class="form-control" @bind-Value="produto.Descricao" />
+        </div>
+
+        <div class="form-group">
+            <label>Preço:</label>
+            <InputNumber class="form-control" @bind-Value="produto.Preco" />
+        </div>
+
+        <div class="form-group">
+            <label>Estoque:</label>
+            <InputNumber class="form-control" @bind-Value="produto.Estoque" />
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Salvar Alterações</button>
+        <button type="button" class="btn btn-secondary mt-3 ms-2" @onclick="Voltar">
+            Voltar
+        </button>
+
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public Guid id { get; set; }
+
+    private Produto produto;
+
+    protected override async Task OnInitializedAsync()
+    {
+        produto = await ProdutoService.GetProdutoByIdAsync(id);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await ProdutoService.UpdateProdutoAsync(id, produto);
+        NavigationManager.NavigateTo("/produtos");
+    }
+    private void Voltar()
+    {
+        NavigationManager.NavigateTo("/produtos");
+    }
+
+}

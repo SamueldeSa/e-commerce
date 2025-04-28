@@ -29,7 +29,7 @@ public class Program {
         builder.Services.AddScoped<IVendaService, VendaService>();
         
 
-        //AddJson verifica se class estao em loop -->  true == segue
+        //AddJson verifica se class estao em loop -->  true == manda seguir
         builder.Services.AddControllers()
             .AddJsonOptions(options =>
             {

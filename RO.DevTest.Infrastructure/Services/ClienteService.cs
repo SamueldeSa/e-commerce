@@ -17,6 +17,7 @@ namespace RO.DevTest.Infrastructure.Services
 
         public async Task<ClienteDTO> CreateAsync(CreateClienteDto dto)
         {
+            
 
             var cliente = new Cliente
             {
@@ -44,6 +45,7 @@ namespace RO.DevTest.Infrastructure.Services
 
         public async Task<IEnumerable<ClienteDTO>> GetAllAsync()
         {
+
             var clientes = await _clienteRepository.GetAllAsync();
 
             return clientes.Select(c => new ClienteDTO
@@ -78,6 +80,7 @@ namespace RO.DevTest.Infrastructure.Services
 
         public async Task<bool> UpdateAsync(Guid id, UpdateClienteDto dto)
         {
+            
             var cliente = await _clienteRepository.GetByIdAsync(id);
 
             if (cliente == null) return false;

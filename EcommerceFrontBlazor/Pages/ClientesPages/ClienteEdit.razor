@@ -1,0 +1,63 @@
+﻿@page "/clientes/editar/{id:guid}"
+@using EcommerceFrontBlazor.Models.ClienteModels
+@using EcommerceFrontBlazor.Services
+@inject ClienteService ClienteService
+@inject NavigationManager NavigationManager
+
+<h3>Editar Cliente</h3>
+
+@if (cliente == null)
+{
+    <p>Carregando cliente...</p>
+}
+else
+{
+    <EditForm Model="cliente" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label>Nome:</label>
+            <InputText class="form-control" @bind-Value="cliente.Nome" />
+        </div>
+
+        <div class="form-group">
+            <label>Email:</label>
+            <InputText class="form-control" @bind-Value="cliente.Email" />
+        </div>
+
+        <div class="form-group">
+            <label>CPF:</label>
+            <InputText class="form-control" @bind-Value="cliente.Cpf" />
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Salvar Alterações</button>
+        <button type="button" class="btn btn-secondary mt-3 ms-2" @onclick="Voltar">
+            Voltar
+        </button>
+
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public Guid id { get; set; }
+
+    private Cliente cliente;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cliente = await ClienteService.GetClienteByIdAsync(id);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await ClienteService.UpdateClienteAsync(id, cliente);
+        NavigationManager.NavigateTo("/clientes");
+    }
+    private void Voltar()
+    {
+        NavigationManager.NavigateTo("/produtos");
+    }
+
+}

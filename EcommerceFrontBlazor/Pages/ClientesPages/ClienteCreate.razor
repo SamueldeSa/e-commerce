@@ -1,0 +1,54 @@
+﻿@page "/clientes/create"
+@using EcommerceFrontBlazor.Services
+@using EcommerceFrontBlazor.Models;
+@using EcommerceFrontBlazor.Models.ClienteModels
+@inject ClienteService ClienteService
+@inject NavigationManager NavigationManager
+
+<h3>Cadastrar Novo Cliente</h3>
+
+<EditForm Model="cliente" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Nome:</label>
+        <InputText class="form-control" @bind-Value="cliente.Nome" />
+    </div>
+
+    <div class="form-group">
+        <label>Email:</label>
+        <InputText class="form-control" @bind-Value="cliente.Email" />
+    </div>
+
+    <div class="form-group">
+        <label>CPF:</label>
+        <InputText class="form-control" @bind-Value="cliente.Cpf" />
+    </div>
+
+    <div class="form-group">
+        <label>Data de Nascimento</label> 
+        <InputDate class="form-control" @bind-Value="cliente.dataNascimento" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
+    <button type="button" class="btn btn-secondary mt-3 ms-2" @onclick="Voltar">
+        Voltar
+    </button>
+
+</EditForm>
+
+@code {
+    private Cliente cliente = new Cliente();
+
+    private async Task HandleValidSubmit()
+    {
+        await ClienteService.CreateClienteAsync(cliente);
+        NavigationManager.NavigateTo("/clientes");
+    }
+    private void Voltar()
+    {
+        NavigationManager.NavigateTo("/produtos");
+    }
+
+}

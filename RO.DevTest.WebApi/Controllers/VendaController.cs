@@ -48,7 +48,7 @@ namespace RO.DevTest.WebApi.Controllers
             return Ok(venda);
         }
 
-        [HttpGet("analisar")]
+        [HttpGet("analise")]
         public async Task<ActionResult<AnaliseVendasResponseDto>> AnlisarVendas([FromQuery] DateTime dataInicio, [FromQuery] DateTime dataFim)
         {
             var analise = await _vendaService.ObterAnaliseVendasAsync(dataInicio, dataFim);
@@ -67,20 +67,6 @@ namespace RO.DevTest.WebApi.Controllers
 
             return NoContent();
         }
-
-
-        /*[HttpDelete("{id}")]
-        public async Task<IActionResult> DeletarVenda(Guid id)
-        {
-            var sucesso = await _vendaService.DeletarVendaAsync(id);
-            if (!sucesso)
-            {
-                return NotFound($"Venda com Id {id} não encontrado!");
-            }
-
-            return NoContent();
-
-        }*/
 
     }
 }

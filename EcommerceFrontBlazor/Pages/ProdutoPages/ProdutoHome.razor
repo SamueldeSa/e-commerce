@@ -1,0 +1,61 @@
+﻿@page "/produtos"
+@using EcommerceFrontBlazor.Models.ProdutoModels
+@using EcommerceFrontBlazor.Services
+@inject ProdutoService ProdutoService
+
+<h3>Lista de Produtos</h3>
+
+<a class="btn btn-success mb-3" href="/produtos/novo">Novo Produto</a>
+
+@if (produtos == null)
+{
+    <p>Carregando produtos...</p>
+}
+else if (produtos.Count == 0)
+{
+    <p>Nenhum produto cadastrado.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var produto in produtos)
+            {
+                <tr>
+                    <td>@produto.Nome</td>
+                    <td>@produto.Descricao</td>
+                    <td>@produto.Preco.ToString("C")</td>
+                    <td>@produto.Estoque</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="/produtos/editar/@produto.Id">Editar</a>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteProduto(produto.Id)">Excluir</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Produto> produtos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        produtos = await ProdutoService.GetProdutosAsync();
+    }
+
+    private async Task DeleteProduto(Guid id)
+    {
+        await ProdutoService.DeleteProdutoAsync(id);
+        produtos = await ProdutoService.GetProdutosAsync(); 
+    }
+}

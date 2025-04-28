@@ -13,7 +13,13 @@ namespace RO.DevTest.Application.DTOs
         public string Email { get; set;} = string.Empty;
         public string Cpf { get; set; } = string.Empty;
 
+        private DateTime _dataNascimento;
+
         [DataType(DataType.Date)]
-        public DateTime DataNascimento { get; set; }
+        public DateTime DataNascimento
+        {
+            get => _dataNascimento;
+            set => _dataNascimento = DateTime.SpecifyKind(value, DateTimeKind.Unspecified);
+        }
     }
 }
